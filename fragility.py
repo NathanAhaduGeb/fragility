@@ -646,7 +646,7 @@ if __name__ == "__main__":
 
     print('What is this sentence test:')
     accuracy = tool.what_is_this_sentence("whatisthis-sent.txt",cot=False,cod=False,unicode_prob=0.1,N=300)
-    grades['whatissent'] = accuracy
+    grades['whatisthis-sent'] = accuracy
     print(f"Overall: {accuracy}")
 
     # Single similarity question: B -> 8
