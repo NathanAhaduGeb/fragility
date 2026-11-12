@@ -733,7 +733,7 @@ if __name__ == "__main__":
     # MMLU 20% noise
     print('MMLU test with 20% perturbed')
     benchseed = 143 if MIMIC_PAPER_RANDOM else time.time_ns()%1000000
-    grades['mmlu2'] = B.mmlu_test("mmlu-20.txt", seed=benchseed, altered_prob=0.2)
+    grades['mmlu-20'] = B.mmlu_test("mmlu-20.txt", seed=benchseed, altered_prob=0.2)
     print(f"Accuracy: {round(grades[list(grades)[-1]],3)}")
 
     # # MMLU 40% noise
