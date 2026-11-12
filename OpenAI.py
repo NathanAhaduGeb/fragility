@@ -19,12 +19,6 @@ import backoff
 from LLM import LLM
 
 
-# Check for API key
-if not 'OPENAI_API_KEY' in os.environ:
-    print("You must set the environment variable OPENAI_API_KEY.")
-    print("The OpenAI class requires an API key to a paid OpenAI account.")
-    exit(1)
-    
 
 class OpenAIModel(LLM):
 

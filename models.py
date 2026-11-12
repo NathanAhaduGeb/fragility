@@ -56,7 +56,7 @@ class BatchModel(LLM):
             self.pth,
             quantization_config=qn_config,
             torch_dtype=torch.bfloat16 if quantization is None else None,
-            attn_implementation="flash_attention_2" if quantization in (8,None) else None,
+            attn_implementation="sdpa",  # torch built-in; flash-attn wheel breaks on Blackwell + new torch
             device_map="balanced"
             #device_map="auto"
         )
@@ -114,7 +114,7 @@ class GenericModel(LLM):
             self.pth,
             quantization_config=qn_config,
             torch_dtype=torch.bfloat16 if qn_config is None else None,
-            attn_implementation="flash_attention_2" if quantization in (8,None) else None,
+            attn_implementation="sdpa",  # torch built-in; flash-attn wheel breaks on Blackwell + new torch
             device_map="auto" # ="cuda" uses whichever CUDA_VISIBLE_DEVICES=1 you set on command line
         ) #.to(self.device) # don't need this, the device_map will handle it
         self.model = torch.compile(self.model)
@@ -223,6 +223,14 @@ class qwen14b(GenericModel):
 class qwen32b(GenericModel):
     def __init__(self,qn=None):     
         super().__init__(f"{MODELS_DIR}/qwen3-32b",device=optimal_gpu(),quantization=qn)
+
+class qwen7b_in(GenericModel):  
+    def __init__(self,qn=None):
+        super().__init__("Qwen/Qwen2.5-7B-Instruct",device=optimal_gpu(),quantization=qn)
+
+class my_model(GenericModel):  # OUT from vocabexperiments_thesis.py (path is relative to fragility)
+    def __init__(self,qn=None):
+        super().__init__("../my-model",device=optimal_gpu(),quantization=qn)
 
 class vicuna7b(GenericModel):
     def __init__(self,qn=None):
